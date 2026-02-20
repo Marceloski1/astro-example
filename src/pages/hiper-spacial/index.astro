@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import HyperTunnel3D from '../../components/HyperTunnel3D.astro';
+---
+
+<Layout title="Hyper Spatial Tunnel | Astro Books">
+	<main class="bg-black relative">
+		<!-- Navigation Bar (Fixed for scroll interaction) -->
+		<nav class="fixed top-0 w-full px-8 flex justify-between items-center h-24 border-b border-white/5 z-40 bg-black/50 backdrop-blur-xl">
+			<a href="/" class="text-white font-black tracking-tighter text-2xl hover:text-blue-500 transition-colors">
+				ASTRO<span class="text-blue-500">BOOKS</span>
+			</a>
+			<div class="flex gap-8 items-center text-[0.6rem] font-mono tracking-[0.3em] uppercase text-white/40">
+				<a href="/biblioteca/biblioteca" class="hover:text-white transition-colors">Digital Vault</a>
+				<div class="w-1 h-1 rounded-full bg-white/20"></div>
+				<a href="/orbe" class="hover:text-white transition-colors">Knowledge Orb</a>
+				<div class="w-1 h-1 rounded-full bg-white/20"></div>
+				<a href="/helicoide" class="hover:text-white transition-colors">Helicoid</a>
+			</div>
+		</nav>
+
+		<HyperTunnel3D />
+	</main>
+</Layout>

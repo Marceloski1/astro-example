@@ -1,11 +1,151 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Welcome from "../components/Welcome.astro";
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import LocalSearch from "../components/LocalSearch.astro";
+import RecentlyViewed from "../components/RecentlyViewed.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const books = await getCollection("books");
+
+///console.log(books[0].data)
+//console.log(books[0].slug)  //Nombre del archivo sin .md (o sea sin el punto tipo de extension)
 ---
 
 <Layout>
-	<Welcome />
+  <main class="container mx-auto px-4 py-12 relative z-10">
+    <!-- Navegación Superior -->
+    <nav class="flex justify-center gap-4 mb-20 animate-fade-in">
+      <a href="/" class="px-6 py-2 bg-blue-500 text-white rounded-full font-bold shadow-lg shadow-blue-500/20 hover:scale-105 transition-all">Inicio</a>
+      <a href="/personal" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Personal</a>
+      <a href="/favoritos" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Mis Favoritos</a>
+      <a href="/animate-book" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">3D Book</a>
+      <a href="/biblioteca/biblioteca" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Library</a>
+      <a href="/orbe" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Orbe</a>
+      <a href="/hiper-spacial" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Túnel</a>
+      <a href="/helicoide" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Helix</a>
+      <a href="/portal" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Portal</a>
+      <a href="/voxels" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Voxels</a>
+      <a href="/matrix" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Matrix</a>
+      <a href="/archivo" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Archive</a>
+      <a href="/morphing" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Morph</a>
+      <a href="/magnetismo" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Imán</a>
+      <a href="/metal-liquido" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Fluido</a>
+      <a href="/holograma" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Holo</a>
+      <a href="/data-stream" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Stream</a>
+      <a href="/glitch-ui" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Glitch</a>
+      <a href="/transiciones" class="px-4 py-1.5 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all text-[0.6rem]">Sync</a>
+      <a href="/design-system" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">UI Kit</a>
+    </nav>
+
+    <h1 class="text-center text-7xl font-extrabold mb-24 animate-fade-in">
+      Dev 👨‍💻
+      <span class="block text-blue-500">Books</span>
+    </h1>
+
+    <LocalSearch books={books} />
+
+    <RecentlyViewed books={books} />
+
+    <section aria-label="Libros recomendados para programadores" class="animate-slide-up">
+      <div class="px-4 mx-auto">
+        <div class="grid gap-12 md:grid-cols-2">
+          {
+            books.map((book) => {
+              const { slug, data } = book;
+              const { title, author, img, readtime, description, buy } = data;
+
+              return (
+                <article class="flex group transform transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] relative">
+                  <!-- Botón Favorito -->
+                  <button 
+                    data-id={slug} 
+                    class="fav-btn absolute -top-2 -right-2 z-20 bg-gray-900 border border-gray-800 p-2 rounded-full shadow-xl hover:scale-110 active:scale-95 transition-all cursor-pointer group/fav"
+                    title="Añadir a favoritos"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 group-hover/fav:text-red-500 transition-colors pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                  </button>
+
+                  <a
+                    href={`/books/${slug}`}
+                    class="mb-2 xl:mb-0 transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] rounded-lg overflow-hidden shrink-0"
+                  >
+                    <img
+                      transition:name={`img-${slug}`}
+                      class="mr-5 w-48 rounded shadow-xl aspect-[11/16] object-cover"
+                      src={`/${img}`}
+                      alt={title}
+                    />
+                  </a>
+
+                  <div class="flex flex-col justify-center ml-6">
+                    <h2
+                      transition:name={`title-${slug}`}
+                      class="mb-2 text-2xl font-bold leading-tight text-white group-hover:text-blue-400 transition-colors"
+                    >
+                      {title}
+                    </h2>
+
+                    <p class="mb-4 text-gray-400 max-w-sm line-clamp-3 text-sm">{description}</p>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">
+                          ⏳ {readtime} min
+                        </span>
+                        <span class="text-xs text-blue-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                          Leer más →
+                        </span>
+                    </div>
+                  </div>
+                </article>
+              );
+            })
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Lógica de Favoritos
+    const favButtons = document.querySelectorAll('.fav-btn');
+    
+    // Función para actualizar el estado visual
+    const updateFavUI = () => {
+      const favs = JSON.parse(localStorage.getItem('fav-books') || '[]');
+      favButtons.forEach(btn => {
+        const id = btn.getAttribute('data-id');
+        const svg = btn.querySelector('svg');
+        if (favs.includes(id)) {
+          svg.classList.remove('text-gray-600');
+          svg.classList.add('text-red-500', 'fill-red-500');
+          svg.setAttribute('fill', 'currentColor');
+        } else {
+          svg.classList.add('text-gray-600');
+          svg.classList.remove('text-red-500', 'fill-red-500');
+          svg.setAttribute('fill', 'none');
+        }
+      });
+    };
+
+    favButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = btn.getAttribute('data-id');
+        let favs = JSON.parse(localStorage.getItem('fav-books') || '[]');
+        
+        if (favs.includes(id)) {
+          favs = favs.filter(f => f !== id);
+        } else {
+          favs.push(id);
+        }
+        
+        localStorage.setItem('fav-books', JSON.stringify(favs));
+        updateFavUI();
+      });
+    });
+
+    // Cargar estado inicial
+    document.addEventListener('astro:page-load', updateFavUI);
+    updateFavUI();
+  </script>
 </Layout>

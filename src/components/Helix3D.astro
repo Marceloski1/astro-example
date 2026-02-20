@@ -1,0 +1,143 @@
+---
+---
+
+<div id="helix-vault" class="w-full h-screen relative bg-[#040404] overflow-hidden flex items-center justify-center">
+    <!-- UI Overlay -->
+    <div class="absolute inset-0 pointer-events-none z-10 p-16 flex flex-col justify-between">
+        <div class="flex flex-col gap-1 items-start opacity-30">
+            <span class="text-[0.6rem] font-bold text-white tracking-[0.6em] uppercase">Genomic.Archive.v1</span>
+            <div class="w-32 h-[1px] bg-white/10"></div>
+        </div>
+
+        <div class="max-w-md">
+            <h2 class="text-5xl font-thin text-white tracking-[0.3em] uppercase mb-4">The DNA of Knowledge</h2>
+            <p class="text-white/30 text-[0.6rem] font-mono tracking-widest leading-loose uppercase">
+                Mapping the genetic structure of digital literature. Double helix alignment active.
+            </p>
+        </div>
+
+        <div class="flex justify-end opacity-20">
+            <div class="text-right font-mono text-[0.5rem] tracking-widest uppercase text-blue-500">
+                Data.Sequence.Helix_001<br/>
+                Status: Synchronized
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas -->
+    <div id="helix-container" class="w-full h-full"></div>
+</div>
+
+<script>
+    import * as THREE from 'three';
+
+    let scene, camera, renderer, clock;
+    let helixGroup;
+    const container = document.getElementById('helix-container');
+
+    const bookColors = [0x3b82f6, 0xef4444, 0x10b981, 0xf59e0b, 0x8b5cf6, 0xec4899, 0xfacc15, 0x1e293b];
+
+    function init() {
+        if (!container) return;
+
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.z = 25;
+
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        clock = new THREE.Clock();
+
+        helixGroup = new THREE.Group();
+        scene.add(helixGroup);
+
+        // Lights
+        const amb = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(amb);
+
+        const point = new THREE.PointLight(0x0088ff, 60, 50);
+        point.position.set(0, 0, 10);
+        scene.add(point);
+
+        // Build Helix
+        const count = 40;
+        const radius = 5;
+        const heightStep = 0.8;
+        const angleStep = 0.4;
+
+        for (let i = 0; i < count; i++) {
+            // Strand 1
+            const group1 = createBookNode(i, radius, angleStep, heightStep, 0);
+            helixGroup.add(group1);
+
+            // Strand 2 (180 degrees offset)
+            const group2 = createBookNode(i, radius, angleStep, heightStep, Math.PI);
+            helixGroup.add(group2);
+
+            // Horizontal connection line
+            const lineGeo = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(Math.cos(i * angleStep) * radius, (i - count/2) * heightStep, Math.sin(i * angleStep) * radius),
+                new THREE.Vector3(Math.cos(i * angleStep + Math.PI) * radius, (i - count/2) * heightStep, Math.sin(i * angleStep + Math.PI) * radius)
+            ]);
+            const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.1 });
+            const line = new THREE.Line(lineGeo, lineMat);
+            helixGroup.add(line);
+        }
+
+        window.addEventListener('resize', onResize);
+        animate();
+    }
+
+    function createBookNode(i, radius, angleStep, heightStep, offset) {
+        const group = new THREE.Group();
+        const angle = i * angleStep + offset;
+        const x = Math.cos(angle) * radius;
+        const z = Math.sin(angle) * radius;
+        const y = (i - 20) * heightStep;
+
+        const geo = new THREE.BoxGeometry(0.3, 0.8, 0.5);
+        const mat = new THREE.MeshStandardMaterial({ 
+            color: bookColors[i % bookColors.length],
+            emissive: bookColors[i % bookColors.length],
+            emissiveIntensity: 0.1
+        });
+        const mesh = new THREE.Mesh(geo, mat);
+        
+        group.position.set(x, y, z);
+        group.lookAt(0, y, 0);
+        group.add(mesh);
+        
+        return group;
+    }
+
+    function onResize() {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
+
+        helixGroup.rotation.y = t * 0.2;
+        helixGroup.position.y = Math.sin(t * 0.5) * 0.5;
+
+        renderer.render(scene, camera);
+    }
+
+    document.addEventListener('astro:page-load', () => {
+        if (!window.helixActive) {
+            init();
+            window.helixActive = true;
+        }
+    });
+
+    if (!window.helixActive) {
+        init();
+        window.helixActive = true;
+    }
+</script>

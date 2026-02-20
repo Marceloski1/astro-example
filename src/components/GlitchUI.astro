@@ -1,0 +1,107 @@
+---
+---
+
+<div class="glitch-container py-20 flex flex-col items-center gap-12">
+    <!-- Glitch Title -->
+    <div class="relative group cursor-pointer overflow-hidden px-4">
+        <h1 class="text-7xl font-black text-white uppercase italic tracking-tighter glitch" data-text="ERROR DETECTED">
+            ERROR DETECTED
+        </h1>
+    </div>
+
+    <!-- Glitch Buttons -->
+    <div class="flex flex-wrap justify-center gap-6">
+        <button class="glitch-btn px-8 py-3 bg-red-600 text-white font-black italic uppercase tracking-widest text-xs relative overflow-hidden group">
+            <span class="relative z-10 transition-transform group-hover:skew-x-12 block">Force Shutdown</span>
+            <div class="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-100 mix-blend-difference"></div>
+            <div class="glitch-layer absolute inset-0 bg-blue-500 -z-10 opacity-0 group-hover:opacity-50 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></div>
+            <div class="glitch-layer absolute inset-0 bg-green-500 -z-10 opacity-0 group-hover:opacity-50 group-hover:-translate-x-1 group-hover:translate-y-1 transition-all"></div>
+        </button>
+
+        <button class="glitch-btn px-8 py-3 border border-white/20 text-white font-black italic uppercase tracking-widest text-xs relative overflow-hidden group">
+            <span class="relative z-10">Repair Files</span>
+            <div class="glitch-bar absolute left-0 w-full h-[1px] bg-blue-400 opacity-0 group-hover:opacity-100 top-1/2 -translate-y-1/2"></div>
+        </button>
+    </div>
+
+    <!-- Interactive Glitch Canvas -->
+    <div class="w-full max-w-4xl h-80 bg-gray-900/50 rounded-lg border border-white/5 relative overflow-hidden flex items-center justify-center">
+        <div class="text-[0.5rem] font-mono text-green-500/30 whitespace-pre overflow-hidden w-full h-full p-6 animate-pulse" id="glitch-log">
+            Initializing system...
+            Kernell mode active.
+            Memory leak detected at 0x00F3A...
+            Overriding buffer...
+        </div>
+        <div class="absolute inset-0 pointer-events-none border-2 border-red-500/0 hover:border-red-500/20 transition-colors" id="glitch-boundary"></div>
+    </div>
+</div>
+
+<style>
+    .glitch {
+        position: relative;
+    }
+    .glitch::before, .glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+    }
+    .glitch::before {
+        left: 2px;
+        text-shadow: -2px 0 #ff00c1;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim 5s infinite linear alternate-reverse;
+    }
+    .glitch::after {
+        left: -2px;
+        text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+        animation: glitch-anim2 1s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim {
+        0% { clip: rect(31px, 9999px, 94px, 0); transform: skew(0.85deg); }
+        5% { clip: rect(70px, 9999px, 71px, 0); transform: skew(0.85deg); }
+        10% { clip: rect(98px, 9999px, 5px, 0); transform: skew(0.85deg); }
+        15% { clip: rect(51px, 9999px, 56px, 0); transform: skew(0.85deg); }
+        20% { clip: rect(34px, 9999px, 48px, 0); transform: skew(0.85deg); }
+    }
+
+    @keyframes glitch-anim2 {
+        0% { clip: rect(65px, 9999px, 100px, 0); transform: skew(0.18deg); }
+        20% { clip: rect(44px, 9999px, 91px, 0); transform: skew(0.18deg); }
+        40% { clip: rect(10px, 9999px, 20px, 0); transform: skew(0.12deg); }
+    }
+
+    .glitch-bar {
+        animation: scanline 4s linear infinite;
+    }
+
+    @keyframes scanline {
+        0% { top: 0; }
+        100% { top: 100%; }
+    }
+</style>
+
+<script>
+    const log = document.getElementById('glitch-log');
+    const messages = [
+        "System breach...",
+        "Protocol 9 active.",
+        "Attempting recovery...",
+        "USER EXOTIC DETECTED.",
+        "Encryption: FAILED.",
+        "Redirecting stream..."
+    ];
+
+    if (log) {
+        setInterval(() => {
+            const line = messages[Math.floor(Math.random() * messages.length)];
+            log.innerHTML += `\n> ${line}`;
+            if (log.innerHTML.length > 1000) log.innerHTML = log.innerHTML.slice(500);
+            log.scrollTop = log.scrollHeight;
+        }, 1000);
+    }
+</script>

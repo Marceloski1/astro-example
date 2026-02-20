@@ -1,0 +1,139 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const personnel = [
+  { id: "1", name: "Juan", lastName: "Pérez", salary: 3000 },
+  { id: "2", name: "María", lastName: "García", salary: 3500 },
+  { id: "3", name: "Carlos", lastName: "Rodríguez", salary: 3200 },
+  { id: "4", name: "Ana", lastName: "Martínez", salary: 3800 },
+  { id: "5", name: "Luis", lastName: "Sánchez", salary: 2900 },
+];
+---
+
+<Layout>
+  <main class="container mx-auto px-4 py-12 relative z-10">
+    <!-- Navegación Superior -->
+    <nav class="flex justify-center gap-4 mb-20 animate-fade-in">
+      <a href="/" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Inicio</a>
+      <a href="/personal" class="px-6 py-2 bg-blue-500 text-white rounded-full font-bold shadow-lg shadow-blue-500/20 hover:scale-105 transition-all">Personal</a>
+      <a href="/favoritos" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Mis Favoritos</a>
+      <a href="/animate-book" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">3D Book</a>
+      <a href="/biblioteca/biblioteca" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Biblioteca</a>
+      <a href="/orbe" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Orbe</a>
+      <a href="/hiper-spacial" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Túnel</a>
+      <a href="/helicoide" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Helix</a>
+      <a href="/design-system" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">UI Kit</a>
+    </nav>
+
+    <h1 class="text-4xl font-extrabold text-white mb-2 text-center animate-fade-in">
+      Gestión de <span class="text-blue-500">Personal</span>
+    </h1>
+    <p class="text-gray-400 text-center mb-12 animate-fade-in delay-100">Administra y filtra los datos de tu equipo en tiempo real</p>
+
+    <!-- Panel de Estadísticas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 animate-slide-up">
+        <div class="bg-gray-900/60 p-6 rounded-2xl border border-gray-800 backdrop-blur-md">
+            <p class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Total de Empleados</p>
+            <p class="text-3xl font-extrabold text-white">{personnel.length}</p>
+        </div>
+        <div class="bg-gray-900/60 p-6 rounded-2xl border border-gray-800 backdrop-blur-md">
+            <p class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Gasto Mensual</p>
+            <p class="text-3xl font-extrabold text-green-400">
+                {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(personnel.reduce((acc, p) => acc + p.salary, 0))}
+            </p>
+        </div>
+        <div class="bg-gray-900/60 p-6 rounded-2xl border border-gray-800 backdrop-blur-md">
+            <p class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Salario Medio</p>
+            <p class="text-3xl font-extrabold text-blue-400">
+                {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(personnel.reduce((acc, p) => acc + p.salary, 0) / personnel.length)}
+            </p>
+        </div>
+    </div>
+
+    <!-- Buscador Animado -->
+    <div class="max-w-md mx-auto mb-12 transform transition-all duration-300 focus-within:scale-105">
+      <div class="relative group">
+        <input 
+          type="text" 
+          id="searchPersonnel" 
+          placeholder="Buscar por nombre o apellido..." 
+          class="w-full bg-gray-900/80 border border-gray-700 text-white px-6 py-4 rounded-full outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all backdrop-blur-md"
+        />
+        <div class="absolute right-5 top-4 text-gray-500 group-focus-within:text-blue-500 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla con Glassmorphism -->
+    <div class="overflow-hidden bg-gray-900/40 rounded-2xl border border-gray-800 backdrop-blur-xl shadow-2xl animate-slide-up">
+      <table class="w-full text-left border-collapse" id="personnelTable">
+        <thead>
+          <tr class="border-b border-gray-800 bg-gray-800/30">
+            <th class="px-6 py-5 font-bold text-gray-300 uppercase text-xs tracking-widest">ID</th>
+            <th class="px-6 py-5 font-bold text-gray-300 uppercase text-xs tracking-widest">Nombre</th>
+            <th class="px-6 py-5 font-bold text-gray-300 uppercase text-xs tracking-widest">Apellido</th>
+            <th class="px-6 py-5 font-bold text-gray-300 uppercase text-xs tracking-widest text-right">Salario</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-800/50">
+          {
+            personnel.map((person) => (
+              <tr class="personnel-row hover:bg-blue-500/5 transition-all duration-200 group">
+                <td class="px-6 py-4 text-gray-500 font-mono text-sm group-hover:text-blue-400 transition-colors">{person.id}</td>
+                <td class="px-6 py-4 text-white font-medium">{person.name}</td>
+                <td class="px-6 py-4 text-white font-medium">{person.lastName}</td>
+                <td class="px-6 py-4 text-right">
+                  <span class="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-sm font-bold border border-green-500/20">
+                    {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(person.salary)}
+                  </span>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+      
+      <!-- Estado vacío -->
+      <div id="noResults" class="hidden py-20 text-center">
+        <p class="text-gray-500 text-lg">No se encontraron resultados para tu búsqueda.</p>
+      </div>
+    </div>
+
+    <div class="mt-12 text-center">
+      <a href="/" class="group text-gray-400 hover:text-white transition-all inline-flex items-center gap-2">
+        <span class="transform transition-transform group-hover:-translate-x-1">←</span>
+        <span>Volver al Inicio</span>
+      </a>
+    </div>
+  </main>
+
+  <script>
+    const searchInput = document.getElementById('searchPersonnel');
+    const tableRows = document.querySelectorAll('.personnel-row');
+    const noResults = document.getElementById('noResults');
+
+    searchInput.addEventListener('input', (e) => {
+      const term = (e.target as HTMLInputElement).value.toLowerCase();
+      let matches = 0;
+
+      tableRows.forEach(row => {
+        const text = row.textContent?.toLowerCase() || '';
+        if (text.includes(term)) {
+          (row as HTMLElement).style.display = '';
+          matches++;
+          row.classList.add('animate-fade-in');
+        } else {
+          (row as HTMLElement).style.display = 'none';
+          row.classList.remove('animate-fade-in');
+        }
+      });
+
+      if (noResults) noResults.style.display = matches === 0 ? 'block' : 'none';
+      const table = document.querySelector('table');
+      if (table) table.style.display = matches === 0 ? 'none' : 'table';
+    });
+  </script>
+</Layout>

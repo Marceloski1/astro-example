@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import HolographicCard from '../../components/HolographicCard.astro';
+---
+
+<Layout title="Holographic Cards | Astro Books">
+	<main class="min-h-screen bg-[#080808] flex flex-col items-center">
+		<!-- Sci-Fi HUD -->
+		<div class="w-full max-w-7xl pt-20 px-12 relative z-10">
+			<div class="flex items-center gap-6 mb-8">
+				<div class="w-12 h-[1px] bg-blue-500"></div>
+				<span class="text-blue-500 font-mono text-[0.6rem] uppercase tracking-[0.8em]">Physical.Asset.Verification</span>
+			</div>
+			<h1 class="text-7xl font-black text-white italic tracking-tighter mb-4">HOLOGRAM</h1>
+			<p class="text-white/20 text-[0.5rem] font-mono uppercase tracking-[0.2em] max-w-md leading-relaxed">
+				Spectral refraction simulation. Moving the cursor alters the angle of incidence for localized color dispersion.
+			</p>
+		</div>
+
+		<div class="w-full flex-grow relative z-10">
+			<HolographicCard />
+		</div>
+
+		<!-- Decorative Circles -->
+		<div class="fixed top-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
+		<div class="fixed bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
+	</main>
+</Layout>

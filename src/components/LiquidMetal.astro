@@ -1,0 +1,72 @@
+---
+---
+
+<div class="liquid-container py-20 flex flex-col items-center justify-center min-h-[60vh] relative">
+  <!-- Liquid Text Header -->
+  <div class="relative group cursor-pointer select-none mb-12">
+    <h1 class="liquid-text text-8xl md:text-[12rem] font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-white to-purple-400 animate-gradient-slow filter blur-[0.5px]">
+      LIQUID
+    </h1>
+    <!-- Shadow Copy for Depth -->
+    <h1 class="absolute inset-0 text-8xl md:text-[12rem] font-black italic tracking-tighter text-blue-500/10 -z-10 blur-2xl translate-y-4">
+      LIQUID
+    </h1>
+  </div>
+
+  <div class="relative group cursor-pointer select-none">
+     <h2 class="liquid-text text-6xl md:text-[8rem] font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-white to-blue-400 animate-gradient-slow filter blur-[0.5px] opacity-80">
+      METAL
+    </h2>
+  </div>
+
+  <!-- SVG Filter for the "Melted" look -->
+  <svg class="hidden">
+    <defs>
+      <filter id="liquid-filter">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur" />
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -15" result="liquid" />
+        <feComposite in="SourceGraphic" in2="liquid" operator="atop" />
+      </filter>
+    </defs>
+  </svg>
+</div>
+
+<style>
+  .liquid-text {
+    filter: url(#liquid-filter);
+    background-size: 200% auto;
+  }
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animate-gradient-slow {
+    animation: gradient 8s linear infinite;
+  }
+
+  .liquid-container::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(59, 130, 246, 0.15), transparent 25%);
+      pointer-events: none;
+      z-index: -1;
+  }
+</style>
+
+<script>
+    function handleMouseMove(e) {
+        const container = e.currentTarget;
+        const rect = container.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        container.style.setProperty('--x', `${x}%`);
+        container.style.setProperty('--y', `${y}%`);
+    }
+
+    const containers = document.querySelectorAll('.liquid-container');
+    containers.forEach(c => c.addEventListener('mousemove', handleMouseMove));
+</script>

@@ -1,0 +1,32 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import GlitchUI from '../../components/GlitchUI.astro';
+---
+
+<Layout title="Glitch Micro-interactions | Astro Books">
+	<main class="min-h-screen bg-[#0a0a0a] flex flex-col items-center">
+		<!-- Header HUD -->
+		<header class="w-full max-w-7xl pt-20 px-8 flex justify-between items-start z-10">
+			<div class="flex flex-col gap-2">
+				<div class="flex items-center gap-4">
+					<div class="w-3 h-3 bg-red-600 animate-ping"></div>
+					<span class="text-red-500 font-mono text-xs tracking-[0.4em] uppercase">Status: Critical</span>
+				</div>
+				<h1 class="text-6xl font-black text-white italic tracking-tighter">GLITCH UI</h1>
+			</div>
+			<div class="bg-white/5 p-4 border border-white/10 rounded-lg">
+				<span class="text-[0.4rem] font-mono text-white/40 uppercase tracking-widest block mb-2">Error Log 0x3F</span>
+				<div class="w-32 h-1 bg-white/10 rounded-full overflow-hidden">
+					<div class="h-full bg-red-600 w-2/3 animate-pulse"></div>
+				</div>
+			</div>
+		</header>
+
+		<div class="w-full flex-grow relative z-10">
+			<GlitchUI />
+		</div>
+
+		<!-- Background Scanlines -->
+		<div class="fixed inset-0 pointer-events-none bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.5)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[size:100%_4px,3px_100%]"></div>
+	</main>
+</Layout>

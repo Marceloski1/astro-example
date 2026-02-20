@@ -1,0 +1,193 @@
+---
+---
+
+<div class="book-container">
+  <div class="book">
+    <div class="front">
+      <div class="cover">
+        <div class="content">
+          <span class="badge">CSS 3D</span>
+          <h1>ASTRO<br/>BOOKS</h1>
+          <p>The pure code experience</p>
+          <div class="footer">
+            <span>2026 EDITION</span>
+            <div class="icon"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="top"></div>
+    <div class="bottom"></div>
+    <div class="back"></div>
+  </div>
+</div>
+
+<style>
+  .book-container {
+    --book-width: 300px;
+    --book-height: 420px;
+    --book-depth: 50px;
+    --primary-color: #3b82f6;
+    --secondary-color: #1e293b;
+    --accent-color: #60a5fa;
+    --pages-color: #f1f5f9;
+    
+    width: 100%;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1500px;
+    background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  }
+
+  .book {
+    width: var(--book-width);
+    height: var(--book-height);
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateY(-25deg) rotateX(15deg);
+    animation: rotateBook 12s infinite linear;
+    cursor: grab;
+  }
+
+  .book:active {
+    cursor: grabbing;
+    animation-play-state: paused;
+  }
+
+  @keyframes rotateBook {
+    0% { transform: rotateY(0deg) rotateX(10deg); }
+    100% { transform: rotateY(360deg) rotateX(10deg); }
+  }
+
+  .book div {
+    position: absolute;
+    transform-style: preserve-3d;
+  }
+
+  /* FRONT COVER */
+  .front {
+    width: var(--book-width);
+    height: var(--book-height);
+    transform: translateZ(calc(var(--book-depth) / 2));
+    background: var(--secondary-color);
+    border-radius: 2px 5px 5px 2px;
+    box-shadow: inset 5px 0 10px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+
+  .cover {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #0f172a 100%);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    border-left: 15px solid rgba(255,255,255,0.05);
+  }
+
+  .content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgba(255,255,255,0.1);
+    padding: 20px;
+    position: relative;
+  }
+
+  .badge {
+    align-self: flex-start;
+    background: var(--primary-color);
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 0.9;
+    margin-bottom: 10px;
+    background: linear-gradient(to bottom right, #fff, var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p {
+    font-size: 14px;
+    color: #94a3b8;
+    margin-top: auto;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 10px;
+    color: var(--accent-color);
+    font-weight: bold;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+  }
+
+  /* SIDES */
+  .left {
+    width: var(--book-depth);
+    height: var(--book-height);
+    left: calc(var(--book-depth) / -2);
+    transform: rotateY(-90deg);
+    background: #0f172a;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+  }
+
+  .right {
+    width: var(--book-depth);
+    height: calc(var(--book-height) - 10px);
+    top: 5px;
+    right: calc(var(--book-depth) / -2);
+    transform: rotateY(90deg);
+    background: var(--pages-color);
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 3px);
+  }
+
+  .top {
+    width: calc(var(--book-width) - 10px);
+    height: var(--book-depth);
+    left: 5px;
+    top: calc(var(--book-depth) / -2);
+    transform: rotateX(90deg);
+    background: var(--pages-color);
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 3px);
+  }
+
+  .bottom {
+    width: calc(var(--book-width) - 10px);
+    height: var(--book-depth);
+    left: 5px;
+    bottom: calc(var(--book-depth) / -2);
+    transform: rotateX(-90deg);
+    background: var(--pages-color);
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 3px);
+  }
+
+  .back {
+    width: var(--book-width);
+    height: var(--book-height);
+    transform: rotateY(180deg) translateZ(calc(var(--book-depth) / 2));
+    background: #0f172a;
+    border-radius: 5px 2px 2px 5px;
+  }
+</style>

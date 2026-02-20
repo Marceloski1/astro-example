@@ -1,3 +1,10 @@
+---
+ import '../styles/global.css'
+ import { ClientRouter } from 'astro:transitions'
+import Background3D from '../components/Background3D.astro'
+import Breadcrumbs from '../components/Breadcrumbs.astro'
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -6,17 +13,129 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro Basics</title>
+		<ClientRouter/>
 	</head>
 	<body>
+		<Background3D />
+    <header class="relative z-20 flex justify-between items-center container mx-auto px-4 py-4">
+      <div class="flex items-center gap-2">
+        <button id="theme-toggle" class="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-all border border-gray-700" title="Cambiar tema">
+          <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M4 12H3m15.364-6.364l.707-.707M6.343 17.657l-.707.707M16.243 17.657l.707.707M5.757 6.364l-.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+          </svg>
+          <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+    <Breadcrumbs />
 		<slot />
+
+    <script is:inline>
+      const getTheme = () => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+
+      const setTheme = (theme) => {
+        if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+        } else {
+          document.documentElement.classList.add('dark');
+        }
+        localStorage.setItem('theme', theme);
+      };
+
+      const theme = getTheme();
+      setTheme(theme);
+
+      document.addEventListener('astro:page-load', () => {
+        const toggle = document.getElementById('theme-toggle');
+        const sun = document.getElementById('sun-icon');
+        const moon = document.getElementById('moon-icon');
+
+        const currentTheme = getTheme();
+        setTheme(currentTheme);
+        
+        if (currentTheme === 'light') {
+          sun?.classList.remove('hidden');
+          moon?.classList.add('hidden');
+        } else {
+          sun?.classList.add('hidden');
+          moon?.classList.remove('hidden');
+        }
+
+        toggle?.addEventListener('click', () => {
+          const isDark = document.documentElement.classList.contains('dark');
+          const nextTheme = isDark ? 'light' : 'dark';
+          setTheme(nextTheme);
+          
+          sun?.classList.toggle('hidden');
+          moon?.classList.toggle('hidden');
+        });
+
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js');
+          });
+        }
+      });
+    </script>
 	</body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
+<style is:global>
+  @reference "../styles/global.css";
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 30%,
+			white 60%
+		);
+	}
+	
+	html {
+		font-family: system-ui, sans-serif;
+		background: #13151a;
+		color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+	}
+
+  html.light {
+    background: #f8fafc;
+    color: #0f172a;
+  }
+
+  html.light body {
+    background: #f8fafc;
+  }
+
+  html.light .text-white {
+    @apply text-slate-900;
+  }
+
+  html.light .text-gray-400 {
+    @apply text-slate-500;
+  }
+
+  html.light .bg-gray-900\/50 {
+    @apply bg-slate-200/50;
+  }
+
+  html.light .border-gray-800 {
+    @apply border-slate-300;
+  }
+
+
+	body > div {
+		@apply container;
 	}
 </style>

@@ -1,0 +1,86 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <main class="container mx-auto px-4 py-12 relative z-10">
+    <nav class="flex justify-center gap-4 mb-20 animate-fade-in">
+      <a href="/" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Inicio</a>
+      <a href="/personal" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Personal</a>
+      <a href="/favoritos" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Mis Favoritos</a>
+      <a href="/animate-book" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">3D Book</a>
+      <a href="/biblioteca/biblioteca" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Biblioteca</a>
+      <a href="/orbe" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Orbe</a>
+      <a href="/hiper-spacial" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Túnel</a>
+      <a href="/helicoide" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Helix</a>
+      <a href="/design-system" class="px-6 py-2 bg-blue-500 text-white rounded-full font-bold shadow-lg shadow-blue-500/20 hover:scale-105 transition-all">UI Kit</a>
+    </nav>
+
+    <h1 class="text-4xl font-extrabold text-white mb-16 text-center animate-fade-in">
+      Design <span class="text-blue-500">System</span>
+    </h1>
+
+    <div class="space-y-24 animate-slide-up">
+      <!-- Colores -->
+      <section>
+        <h2 class="text-2xl font-bold mb-8 border-b border-gray-800 pb-2">Paleta de Colores</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div class="space-y-2">
+            <div class="h-20 bg-blue-500 rounded-xl shadow-lg shadow-blue-500/20"></div>
+            <p class="text-sm font-mono text-gray-400">Primary (#3b82f6)</p>
+          </div>
+          <div class="space-y-2">
+            <div class="h-20 bg-gray-900 border border-gray-800 rounded-xl"></div>
+            <p class="text-sm font-mono text-gray-400">Base Dark (#13151a)</p>
+          </div>
+          <div class="space-y-2">
+            <div class="h-20 bg-green-500 rounded-xl shadow-lg shadow-green-500/10"></div>
+            <p class="text-sm font-mono text-gray-400">Success (#22c55e)</p>
+          </div>
+          <div class="space-y-2">
+            <div class="h-20 bg-red-500 rounded-xl shadow-lg shadow-red-500/10"></div>
+            <p class="text-sm font-mono text-gray-400">Destructive (#ef4444)</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Botones -->
+      <section>
+        <h2 class="text-2xl font-bold mb-8 border-b border-gray-800 pb-2">Componentes: Botones</h2>
+        <div class="flex flex-wrap gap-6 items-center">
+          <button class="px-6 py-2 bg-blue-500 text-white rounded-full font-bold hover:scale-105 transition-all">Primary Action</button>
+          <button class="px-6 py-2 bg-gray-800 text-white rounded-full font-bold hover:bg-gray-700 transition-all">Secondary</button>
+          <button class="p-3 bg-gray-900 border border-gray-800 rounded-full text-red-500 hover:scale-110 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+          </button>
+          <button class="px-4 py-1 text-xs bg-gray-800 text-gray-300 rounded border border-gray-700 uppercase tracking-tighter">Badge Style</button>
+        </div>
+      </section>
+
+      <!-- Tipografía -->
+      <section>
+        <h2 class="text-2xl font-bold mb-8 border-b border-gray-800 pb-2">Tipografía</h2>
+        <div class="space-y-6">
+          <p class="text-7xl font-extrabold">Heading Extra Large</p>
+          <p class="text-4xl font-bold">Heading Medium</p>
+          <p class="text-gray-400 leading-relaxed max-w-2xl">
+            Este es un texto de cuerpo. La legibilidad se mejora mediante el uso de un interlineado generoso y colores suaves para reducir la fatiga visual en entornos oscuros.
+          </p>
+          <p class="font-mono text-blue-400">Monospace for IDs: #123456789</p>
+        </div>
+      </section>
+
+      <!-- Glassmorphism -->
+      <section>
+        <h2 class="text-2xl font-bold mb-8 border-b border-gray-800 pb-2">Efectos: Glassmorphism</h2>
+        <div class="p-12 bg-gray-900/40 rounded-3xl border border-gray-800 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+          <div class="absolute -top-10 -left-10 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl"></div>
+          <p class="relative z-10 text-center text-lg italic text-gray-300">
+            "El buen diseño es invisible."
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>

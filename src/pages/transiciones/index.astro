@@ -1,0 +1,34 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageTransitionDemo from '../../components/PageTransitionDemo.astro';
+---
+
+<Layout title="Advanced Transitions | Astro Books">
+	<main class="min-h-screen bg-[#050505] flex flex-col items-center justify-center relative overflow-hidden">
+		<!-- Navigation Bar -->
+		<nav class="absolute top-0 w-full px-12 py-8 flex justify-between items-center z-20">
+			<a href="/" class="text-white font-black tracking-tighter text-2xl hover:text-blue-500 transition-colors">
+				ASTRO<span class="text-blue-500">BOOKS</span>
+			</a>
+			<span class="text-white/20 font-mono text-[0.4rem] uppercase tracking-widest">Router.Sync.Active</span>
+		</nav>
+
+		<div class="w-full flex-grow relative z-10 flex items-center justify-center">
+			<PageTransitionDemo />
+		</div>
+
+		<!-- Animated Background Sweep -->
+		<div class="fixed inset-0 pointer-events-none opacity-20">
+			<div class="absolute top-0 left-[-50%] w-[200%] h-[1px] bg-blue-500 animate-[sweep_8s_ease-in-out_infinite]"></div>
+			<div class="absolute bottom-0 left-[-50%] w-[200%] h-[1px] bg-purple-500 animate-[sweep_12s_ease-in-out_infinite_reverse]"></div>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	@keyframes sweep {
+		0% { transform: translateY(0vh) rotate(-5deg); }
+		50% { transform: translateY(100vh) rotate(5deg); }
+		100% { transform: translateY(0vh) rotate(-5deg); }
+	}
+</style>

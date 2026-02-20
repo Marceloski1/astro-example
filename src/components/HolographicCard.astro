@@ -1,0 +1,95 @@
+---
+---
+
+<div class="holographic-container flex flex-wrap justify-center gap-16 py-20 px-8">
+  <!-- Card 1 -->
+  <div class="holographic-card relative w-72 aspect-[2/3] rounded-2xl overflow-hidden cursor-pointer group shadow-2xl">
+    <!-- Base Image -->
+    <div class="absolute inset-0 bg-gray-900 flex items-center justify-center">
+        <div class="text-center p-8">
+            <div class="text-6xl mb-4 grayscale group-hover:grayscale-0 transition-all duration-700">📘</div>
+            <h3 class="text-white font-black text-2xl italic mb-2">NEUROMANCER</h3>
+            <p class="text-white/40 text-[0.6rem] font-mono uppercase tracking-widest">Gibson // 1984</p>
+        </div>
+    </div>
+
+    <!-- Foil / Holographic Overlay -->
+    <div class="holo-shine absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-color-dodge"></div>
+    <div class="holo-glitter absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-1000 pointer-events-none mix-blend-overlay"></div>
+    
+    <!-- Glass Border -->
+    <div class="absolute inset-0 border border-white/10 rounded-2xl pointer-events-none group-hover:border-blue-500/50 transition-colors"></div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="holographic-card relative w-72 aspect-[2/3] rounded-2xl overflow-hidden cursor-pointer group shadow-2xl">
+    <div class="absolute inset-0 bg-gray-900 flex items-center justify-center">
+        <div class="text-center p-8">
+            <div class="text-6xl mb-4 grayscale group-hover:grayscale-0 transition-all duration-700">💾</div>
+            <h3 class="text-white font-black text-2xl italic mb-2">SNOW CRASH</h3>
+            <p class="text-white/40 text-[0.6rem] font-mono uppercase tracking-widest">Stephenson // 1992</p>
+        </div>
+    </div>
+    <div class="holo-shine absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-color-dodge"></div>
+    <div class="holo-glitter absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-1000 pointer-events-none mix-blend-overlay"></div>
+    <div class="absolute inset-0 border border-white/10 rounded-2xl pointer-events-none group-hover:border-purple-500/50 transition-colors"></div>
+  </div>
+</div>
+
+<style>
+  .holographic-card {
+    transition: transform 0.2s ease-out;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+
+  .holo-shine {
+    background: radial-gradient(
+      circle at var(--x, 50%) var(--y, 50%),
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(59, 130, 246, 0.2) 25%,
+      rgba(168, 85, 247, 0.2) 50%,
+      transparent 100%
+    );
+    z-index: 2;
+  }
+
+  .holo-glitter {
+    background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+    z-index: 1;
+  }
+
+  .holographic-card:hover {
+    transform: scale(1.02);
+  }
+</style>
+
+<script>
+    function handleHoloMove(e) {
+        const card = e.currentTarget;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (centerY - y) / 10;
+        const rotateY = (x - centerX) / 10;
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        card.style.setProperty('--x', `${(x / rect.width) * 100}%`);
+        card.style.setProperty('--y', `${(y / rect.height) * 100}%`);
+    }
+
+    function handleHoloLeave(e) {
+        const card = e.currentTarget;
+        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+    }
+
+    const cards = document.querySelectorAll('.holographic-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', handleHoloMove);
+        card.addEventListener('mouseleave', handleHoloLeave);
+    });
+</script>

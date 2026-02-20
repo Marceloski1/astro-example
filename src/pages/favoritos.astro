@@ -1,0 +1,109 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const allBooks = await getCollection("books");
+---
+
+<Layout>
+  <main class="container mx-auto px-4 py-12 relative z-10">
+    <!-- Navegación Superior -->
+    <nav class="flex justify-center gap-4 mb-20 animate-fade-in">
+      <a href="/" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Inicio</a>
+      <a href="/personal" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Personal</a>
+      <a href="/favoritos" class="px-6 py-2 bg-blue-500 text-white rounded-full font-bold shadow-lg shadow-blue-500/20 hover:scale-105 transition-all">Mis Favoritos</a>
+      <a href="/animate-book" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">3D Book</a>
+      <a href="/biblioteca/biblioteca" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Biblioteca</a>
+      <a href="/orbe" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Orbe</a>
+      <a href="/hiper-spacial" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Túnel</a>
+      <a href="/helicoide" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Helix</a>
+      <a href="/design-system" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">UI Kit</a>
+    </nav>
+
+    <h1 class="text-center text-7xl font-extrabold mb-24 animate-fade-in">
+      Mis <span class="text-red-500">Favoritos</span>
+    </h1>
+
+    <div id="favorites-skeleton" class="grid gap-12 md:grid-cols-2">
+      {[1, 2, 3, 4].map(_ => (
+        <div class="flex animate-pulse">
+          <div class="w-48 h-72 bg-gray-800 rounded-lg shrink-0"></div>
+          <div class="flex flex-col justify-center ml-6 flex-1 space-y-4">
+            <div class="h-8 bg-gray-800 rounded w-3/4"></div>
+            <div class="h-4 bg-gray-800 rounded w-full"></div>
+            <div class="h-4 bg-gray-800 rounded w-5/6"></div>
+            <div class="h-6 bg-gray-800 rounded w-1/4"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div id="favorites-container" class="grid gap-12 md:grid-cols-2 hidden">
+      <!-- Los libros favoritos se cargarán aquí vía script -->
+    </div>
+
+    <div id="empty-state" class="hidden text-center py-20 animate-fade-in">
+      <p class="text-gray-500 text-xl mb-8">Aún no has guardado ningún libro como favorito.</p>
+      <a href="/" class="text-blue-400 hover:underline">Explorar libros →</a>
+    </div>
+
+    <!-- Template para las cards de libros (invisibles) -->
+    <div id="book-templates" class="hidden">
+      {allBooks.map(book => (
+        <div data-template-id={book.slug} class="flex group transform transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02]">
+           <a href={`/books/${book.slug}`} class="mb-2 xl:mb-0 transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] rounded-lg overflow-hidden shrink-0">
+             <img src={`/${book.data.img}`} class="mr-5 w-48 rounded shadow-xl aspect-[11/16] object-cover" />
+           </a>
+           <div class="flex flex-col justify-center ml-6">
+             <h2 class="mb-2 text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">{book.data.title}</h2>
+             <p class="mb-4 text-gray-400 max-w-sm line-clamp-3 text-sm">{book.data.description}</p>
+             <div class="flex items-center gap-3">
+                <span class="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">⏳ {book.data.readtime} min</span>
+             </div>
+           </div>
+        </div>
+      ))}
+    </div>
+  </main>
+
+  <script>
+    const renderFavorites = () => {
+      const favs = JSON.parse(localStorage.getItem('fav-books') || '[]');
+      const container = document.getElementById('favorites-container');
+      const skeleton = document.getElementById('favorites-skeleton');
+      const emptyState = document.getElementById('empty-state');
+      
+      if (!container || !emptyState || !skeleton) return;
+
+      container.innerHTML = '';
+      
+      if (favs.length === 0) {
+        skeleton.classList.add('hidden');
+        container.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        renderRecommended();
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      skeleton.classList.add('hidden');
+      container.classList.remove('hidden');
+      
+      favs.forEach(id => {
+        const template = document.querySelector(`[data-template-id="${id}"]`);
+        if (template) {
+          const clone = template.cloneNode(true);
+          (clone as HTMLElement).classList.remove('hidden');
+          container.appendChild(clone);
+        }
+      });
+    };
+
+    const renderRecommended = () => {
+        // En una app real, aquí mostraríamos recomendaciones
+    };
+
+    document.addEventListener('astro:page-load', renderFavorites);
+    renderFavorites();
+  </script>
+</Layout>

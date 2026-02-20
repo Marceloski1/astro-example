@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Portal3D from '../../components/Portal3D.astro';
+---
+
+<Layout title="The Portal | Astro Books">
+	<main class="min-h-screen bg-black overflow-hidden flex flex-col items-center">
+		<!-- Navigation Bar -->
+		<nav class="w-full max-w-7xl px-8 flex justify-between items-center h-24 border-b border-white/5 relative z-20">
+			<a href="/" class="text-white font-black tracking-tighter text-2xl hover:text-blue-500 transition-colors">
+				ASTRO<span class="text-blue-500">BOOKS</span>
+			</a>
+			<div class="flex gap-8 items-center text-[0.6rem] font-mono tracking-[0.3em] uppercase text-white/40">
+				<a href="/biblioteca/biblioteca" class="hover:text-white transition-colors">Digital Vault</a>
+				<div class="w-1 h-1 rounded-full bg-white/20"></div>
+				<a href="/hiper-spacial" class="hover:text-white transition-colors">Hyper Spatial</a>
+				<div class="w-1 h-1 rounded-full bg-white/20"></div>
+				<a href="/voxels" class="hover:text-white transition-colors">Voxel World</a>
+			</div>
+		</nav>
+
+		<div class="w-full flex-grow relative">
+			<Portal3D />
+		</div>
+	</main>
+</Layout>

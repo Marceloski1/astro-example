@@ -1,0 +1,106 @@
+---
+---
+
+<div id="data-stream-container" class="w-full h-full absolute inset-0 bg-transparent"></div>
+
+<script>
+    import * as THREE from 'three';
+
+    let scene, camera, renderer, clock;
+    let points, lines;
+    const vertexCount = 100;
+
+    function init() {
+        const container = document.getElementById('data-stream-container');
+        if (!container || container.children.length > 0) return;
+
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 50;
+
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        clock = new THREE.Clock();
+
+        // Points
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(vertexCount * 3);
+        const velocities = new Float32Array(vertexCount * 3);
+
+        for (let i = 0; i < vertexCount; i++) {
+            positions[i * 3] = (Math.random() - 0.5) * 100;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
+
+            velocities[i * 3] = (Math.random() - 0.5) * 0.1;
+            velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.1;
+            velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.05;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        
+        const material = new THREE.PointsMaterial({
+            size: 0.5,
+            color: 0x3b82f6,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending
+        });
+
+        points = new THREE.Points(geometry, material);
+        scene.add(points);
+
+        // Connection Lines (Shader-like approach with CPU update for simplicity)
+        const lineGeo = new THREE.BufferGeometry();
+        const lineMat = new THREE.LineBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.1 });
+        lines = new THREE.LineSegments(lineGeo, lineMat);
+        scene.add(lines);
+
+        window.addEventListener('resize', onResize);
+        animate();
+    }
+
+    function onResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
+        
+        const pos = points.geometry.attributes.position.array;
+        const linePos = [];
+
+        for (let i = 0; i < vertexCount; i++) {
+            pos[i * 3] += Math.sin(t + i) * 0.02;
+            pos[i * 3 + 1] += Math.cos(t + i) * 0.02;
+
+            // Simple connection logic (distance based)
+            for (let j = i + 1; j < vertexCount; j++) {
+                const dx = pos[i * 3] - pos[j * 3];
+                const dy = pos[i * 3 + 1] - pos[j * 3 + 1];
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 15) {
+                    linePos.push(pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2]);
+                    linePos.push(pos[j * 3], pos[j * 3 + 1], pos[j * 3 + 2]);
+                }
+            }
+        }
+
+        points.geometry.attributes.position.needsUpdate = true;
+        lines.geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(linePos), 3));
+
+        scene.rotation.y = Math.sin(t * 0.1) * 0.2;
+
+        renderer.render(scene, camera);
+    }
+
+    document.addEventListener('astro:page-load', init);
+    init();
+</script>

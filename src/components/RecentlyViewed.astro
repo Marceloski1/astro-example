@@ -1,0 +1,46 @@
+---
+const { books } = Astro.props;
+---
+
+<section id="recently-viewed-section" class="hidden mb-20 animate-slide-up">
+  <h2 class="text-3xl font-bold mb-8 text-center">Continuar <span class="text-blue-500">Leyendo</span></h2>
+  <div id="recently-viewed-container" class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+    <!-- Contenido dinámico -->
+  </div>
+</section>
+
+<script is:inline define:vars={{ books }}>
+  const renderRecent = () => {
+    const section = document.getElementById('recently-viewed-section');
+    const container = document.getElementById('recently-viewed-container');
+    if (!section || !container) return;
+
+    const recentIds = JSON.parse(localStorage.getItem('recently-viewed') || '[]');
+    
+    if (recentIds.length === 0) {
+      section.classList.add('hidden');
+      return;
+    }
+
+    section.classList.remove('hidden');
+    container.innerHTML = '';
+
+    // Solo mostramos los últimos 4
+    recentIds.slice(0, 4).forEach(id => {
+      const book = books.find(b => b.slug === id);
+      if (book) {
+        const { title, img } = book.data;
+        const html = `
+          <a href="/books/${id}" class="flex flex-col items-center group transition-all duration-300 hover:scale-105">
+            <img src="/${img}" class="w-32 rounded shadow-lg aspect-[11/16] object-cover mb-4 group-hover:shadow-blue-500/20" />
+            <h3 class="text-sm font-bold text-center group-hover:text-blue-400 transition-colors line-clamp-1">${title}</h3>
+          </a>
+        `;
+        container.innerHTML += html;
+      }
+    });
+  };
+
+  document.addEventListener('astro:page-load', renderRecent);
+  renderRecent();
+</script>

@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Book3D from "../components/Book3D.astro";
+---
+
+<Layout>
+  <main class="container mx-auto px-4 py-12 relative z-10">
+    <!-- Navegación Superior -->
+    <nav class="flex flex-wrap justify-center gap-4 mb-20 animate-fade-in">
+      <a href="/" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Inicio</a>
+      <a href="/personal" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Personal</a>
+      <a href="/favoritos" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Mis Favoritos</a>
+      <a href="/animate-book" class="px-6 py-2 bg-blue-500 text-white rounded-full font-bold shadow-lg shadow-blue-500/20 hover:scale-105 transition-all">3D Book</a>
+      <a href="/biblioteca/biblioteca" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Biblioteca</a>
+      <a href="/orbe" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Orbe</a>
+      <a href="/hiper-spacial" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Túnel</a>
+      <a href="/helicoide" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Helix</a>
+      <a href="/design-system" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">UI Kit</a>
+    </nav>
+
+    <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-6xl font-extrabold mb-8 animate-fade-in">
+            Experiencia <span class="text-blue-500">3D</span>
+        </h1>
+        <p class="text-gray-400 text-xl mb-12 animate-slide-up">
+            Interactúa con el libro. El movimiento es automático y fluido, realizado enteramente con CSS Moderno.
+        </p>
+
+        <div class="animate-slide-up">
+            <Book3D />
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-in">
+            <div class="p-6 bg-gray-900/40 rounded-2xl border border-gray-800">
+                <h3 class="text-blue-400 font-bold mb-2">Puro HTML/CSS</h3>
+                <p class="text-sm text-gray-500">Sin imágenes externas ni bibliotecas pesadas. Solo código puro.</p>
+            </div>
+            <div class="p-6 bg-gray-900/40 rounded-2xl border border-gray-800">
+                <h3 class="text-green-400 font-bold mb-2">3D Transforms</h3>
+                <p class="text-sm text-gray-500">Uso avanzado de transformaciones 3D de CSS para un efecto realista.</p>
+            </div>
+            <div class="p-6 bg-gray-900/40 rounded-2xl border border-gray-800">
+                <h3 class="text-purple-400 font-bold mb-2">Ligero y Rápido</h3>
+                <p class="text-sm text-gray-500">Cero tiempo de carga y máximo rendimiento en cualquier navegador.</p>
+            </div>
+        </div>
+    </div>
+  </main>
+</Layout>

@@ -1,0 +1,57 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Library3D from "../../components/Library3D.astro";
+---
+
+<Layout>
+  <main class="container mx-auto px-4 py-12 relative z-10">
+    <!-- Navegación Superior -->
+    <nav class="flex flex-wrap justify-center gap-4 mb-20 animate-fade-in">
+      <a href="/" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Inicio</a>
+      <a href="/personal" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Personal</a>
+      <a href="/favoritos" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Mis Favoritos</a>
+      <a href="/animate-book" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">3D Book</a>
+      <a href="/biblioteca/biblioteca" class="px-6 py-2 bg-blue-500 text-white rounded-full font-bold shadow-lg shadow-blue-500/20 hover:scale-105 transition-all">Biblioteca</a>
+      <a href="/orbe" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Orbe</a>
+      <a href="/hiper-spacial" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Túnel</a>
+      <a href="/helicoide" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">Helix</a>
+      <a href="/design-system" class="px-6 py-2 bg-gray-900/50 text-gray-300 border border-gray-800 rounded-full font-bold hover:bg-gray-800 hover:text-white transition-all">UI Kit</a>
+    </nav>
+
+    <div class="max-w-6xl mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-7xl font-black mb-4 animate-fade-in">
+                Tu <span class="text-blue-500">Biblioteca</span> Virtual
+            </h1>
+            <p class="text-gray-400 text-xl max-w-2xl mx-auto animate-slide-up">
+                Una experiencia interactiva para explorar tus clásicos favoritos de la programación en 3D real.
+            </p>
+        </header>
+
+        <section class="animate-fade-in">
+            <Library3D />
+        </section>
+
+        <footer class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 text-center animate-slide-up">
+            <div class="space-y-2">
+                <span class="text-blue-500 text-4xl block">🖱️</span>
+                <p class="text-sm text-gray-500 uppercase tracking-tighter">Haz click para seleccionar</p>
+            </div>
+            <div class="space-y-2">
+                <span class="text-blue-500 text-4xl block">🌌</span>
+                <p class="text-sm text-gray-500 uppercase tracking-tighter">Fondo Procedural</p>
+            </div>
+            <div class="space-y-2">
+                <span class="text-blue-500 text-4xl block">💫</span>
+                <p class="text-sm text-gray-500 uppercase tracking-tighter">Animaciones Suaves</p>
+            </div>
+        </footer>
+    </div>
+  </main>
+</Layout>
+
+<style>
+    main {
+        min-height: 100vh;
+    }
+</style>

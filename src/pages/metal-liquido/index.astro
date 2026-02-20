@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import LiquidMetal from '../../components/LiquidMetal.astro';
+---
+
+<Layout title="Liquid Metal Effect | Astro Books">
+	<main class="min-h-screen bg-[#020202] overflow-hidden flex flex-col items-center">
+		<!-- Navigation Overlay -->
+		<nav class="absolute top-0 w-full px-12 py-8 flex justify-between items-center z-20">
+			<a href="/" class="text-white font-mono text-[0.6rem] tracking-[0.6em] uppercase hover:text-blue-500 transition-colors">Return_to_Core</a>
+			<div class="h-[1px] flex-grow mx-8 bg-white/5"></div>
+			<span class="text-white/20 font-mono text-[0.4rem] uppercase tracking-widest">Spectral.Shader.v4</span>
+		</nav>
+
+		<div class="w-full flex-grow relative flex items-center justify-center">
+			<LiquidMetal />
+		</div>
+
+		<!-- UI Details -->
+		<div class="absolute bottom-12 left-12 max-w-xs border-l border-blue-500 pl-6 py-2">
+			<h3 class="text-white font-bold text-xs tracking-widest mb-1 italic">ORGANIC DISPLACEMENT</h3>
+			<p class="text-white/30 text-[0.5rem] font-mono uppercase tracking-widest leading-loose">
+				Simulating mercury-like viscosity through high-index color matrix manipulation.
+			</p>
+		</div>
+	</main>
+</Layout>

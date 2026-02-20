@@ -1,0 +1,171 @@
+---
+---
+
+<div id="portal-stage" class="w-full h-screen relative bg-black overflow-hidden flex items-center justify-center">
+    <!-- UI Overlay -->
+    <div class="absolute inset-0 z-10 pointer-events-none p-12 flex flex-col justify-between">
+        <div class="flex justify-between items-start">
+            <div class="flex flex-col gap-2">
+                <span class="text-blue-500 font-mono text-[0.6rem] uppercase tracking-[0.5em] animate-pulse">Event.Horizon.Active</span>
+                <div class="h-[1px] w-48 bg-white/10"></div>
+            </div>
+            <div class="text-right">
+                <span class="text-white/20 font-mono text-[0.5rem] uppercase tracking-widest">Singularity Engine v2.0</span>
+            </div>
+        </div>
+
+        <div class="max-w-md mx-auto text-center translate-y-20 opacity-0 transition-all duration-1000 delay-300" id="portal-info">
+            <h1 class="text-6xl font-black text-white italic mb-4 tracking-tighter">THE PORTAL</h1>
+            <p class="text-white/40 text-[0.6rem] font-mono tracking-widest uppercase leading-relaxed">
+                Crossing the boundary of digital manifestation. Space-time fabric dissolution at 98%.
+            </p>
+        </div>
+
+        <div class="flex justify-center gap-24 items-end opacity-20">
+            <div class="flex flex-col items-center">
+                <div class="w-[1px] h-12 bg-white/50 mb-2"></div>
+                <span class="text-[0.4rem] text-white uppercase tracking-widest">Dimension.Alpha</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-[1px] h-12 bg-white/50 mb-2"></div>
+                <span class="text-[0.4rem] text-white uppercase tracking-widest">Flux.State</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tailwind Blur Filter (Magic) -->
+    <div class="absolute inset-0 pointer-events-none backdrop-blur-[2px] z-5 opacity-50"></div>
+    
+    <!-- Heavy Radial Glow -->
+    <div class="absolute inset-0 pointer-events-none bg-radial-gradient from-blue-600/5 via-transparent to-transparent z-0 opacity-80" id="portal-glow"></div>
+
+    <div class="absolute inset-0" id="portal-canvas-container"></div>
+</div>
+
+<script>
+    import * as THREE from 'three';
+
+    let scene, camera, renderer, clock;
+    let particles, ringParticles, core;
+    const container = document.getElementById('portal-canvas-container');
+
+    function init() {
+        if (!container) return;
+
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        clock = new THREE.Clock();
+
+        // 1. Vortex Particles
+        const partGeo = new THREE.BufferGeometry();
+        const count = 5000;
+        const pos = new Float32Array(count * 3);
+        const colors = new Float32Array(count * 3);
+        
+        for(let i=0; i<count; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const radius = 2 + Math.random() * 8;
+            pos[i*3] = Math.cos(angle) * radius;
+            pos[i*3+1] = Math.sin(angle) * radius;
+            pos[i*3+2] = (Math.random() - 0.5) * 10 - radius;
+
+            colors[i*3] = 0.2;
+            colors[i*3+1] = 0.5 + Math.random() * 0.5;
+            colors[i*3+2] = 1.0;
+        }
+        
+        partGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        partGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        
+        const partMat = new THREE.PointsMaterial({ 
+            size: 0.05, 
+            vertexColors: true, 
+            transparent: true, 
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending 
+        });
+        particles = new THREE.Points(partGeo, partMat);
+        scene.add(particles);
+
+        // 2. Inner Ring
+        const ringGeo = new THREE.TorusGeometry(1.5, 0.02, 16, 100);
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0x00f2ff, transparent: true, opacity: 0.8 });
+        core = new THREE.Mesh(ringGeo, ringMat);
+        scene.add(core);
+
+        // 3. Ring Particles
+        const rPartGeo = new THREE.BufferGeometry();
+        const rCount = 1000;
+        const rPos = new Float32Array(rCount * 3);
+        for(let i=0; i<rCount; i++) {
+            const a = (i / rCount) * Math.PI * 2;
+            rPos[i*3] = Math.cos(a) * 1.5;
+            rPos[i*3+1] = Math.sin(a) * 1.5;
+            rPos[i*3+2] = 0;
+        }
+        rPartGeo.setAttribute('position', new THREE.BufferAttribute(rPos, 3));
+        ringParticles = new THREE.Points(rPartGeo, new THREE.PointsMaterial({ size: 0.02, color: 0xffffff, blending: THREE.AdditiveBlending }));
+        scene.add(ringParticles);
+
+        window.addEventListener('resize', onResize);
+        
+        // Intro
+        setTimeout(() => {
+            const info = document.getElementById('portal-info');
+            if (info) {
+                info.style.opacity = '1';
+                info.style.transform = 'translateY(0)';
+            }
+        }, 500);
+
+        animate();
+    }
+
+    function onResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
+
+        particles.rotation.z = t * 0.1;
+        particles.position.z = Math.sin(t * 0.5) * 0.5;
+
+        core.rotation.x = t * 0.2;
+        core.rotation.y = t * 0.3;
+        core.scale.setScalar(1 + Math.sin(t * 5) * 0.02);
+
+        ringParticles.rotation.z = -t * 0.5;
+
+        // Mouse influence
+        const mouseX = (window.innerWidth / 2 - 0) / 100; // Placeholder for actual mouse
+        camera.position.x += (0 - camera.position.x) * 0.05;
+        camera.position.y += (0 - camera.position.y) * 0.05;
+        camera.lookAt(scene.position);
+
+        renderer.render(scene, camera);
+    }
+
+    document.addEventListener('astro:page-load', () => {
+        const container = document.getElementById('portal-canvas-container');
+        if (container && container.children.length === 0) init();
+    });
+
+    init();
+</script>
+
+<style>
+    #portal-stage {
+        background: radial-gradient(circle at center, #001a33 0%, #000 100%);
+    }
+</style>

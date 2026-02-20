@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import MagneticEffect from '../../components/MagneticEffect.astro';
+---
+
+<Layout title="Magnetic Interaction | Astro Books">
+	<main class="min-h-screen bg-[#050505] overflow-hidden flex flex-col items-center">
+		<!-- HUD Header -->
+		<header class="w-full max-w-7xl px-8 pt-12 flex flex-col gap-4 relative z-10">
+			<div class="flex justify-between items-end border-b border-white/5 pb-8">
+				<div>
+					<span class="text-blue-500 font-mono text-[0.6rem] uppercase tracking-[0.5em] mb-2 block">Interface.Physics.Active</span>
+					<h1 class="text-6xl font-black text-white italic tracking-tighter">MAGNETISMO</h1>
+				</div>
+				<div class="text-right max-w-xs">
+					<p class="text-white/30 text-[0.5rem] font-mono tracking-widest uppercase leading-relaxed">
+						Interactive attraction fields. Hover over elements to engage magnetic physics.
+					</p>
+				</div>
+			</div>
+		</header>
+
+		<div class="w-full flex-grow relative z-10">
+			<MagneticEffect />
+		</div>
+
+		<!-- Background Grid -->
+		<div class="fixed inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+	</main>
+</Layout>
